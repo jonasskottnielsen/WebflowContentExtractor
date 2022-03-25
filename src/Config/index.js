@@ -7,6 +7,8 @@ const config = {
 	PRODUCTION: JSON.parse(process.env.PRODUCTION),
 	ROOT_PATH: process.cwd(),
 
+	WORDPRESS_UPLOAD_URL: process.env.WORDPRESS_UPLOAD_URL,
+
 	DB_HOST: process.env.DB_HOST,
 	DB_USERNAME: process.env.DB_USERNAME,
 	DB_PASSWORD: process.env.DB_PASSWORD,
@@ -17,6 +19,8 @@ const config = {
 export const {
 	PRODUCTION,
 	ROOT_PATH,
+
+	WORDPRESS_UPLOAD_URL,
 
 	DB_HOST,
 	DB_USERNAME,

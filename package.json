@@ -5,6 +5,7 @@
   "main": "index.js",
   "type": "module",
   "scripts": {
+    "start": "nodemon ./src/Extractor.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "repository": {
@@ -20,7 +21,9 @@
   "dependencies": {
     "axios": "^0.26.1",
     "dotenv": "^16.0.0",
+    "extract-urls": "^1.3.2",
     "mysql": "^2.18.1",
+    "node-fetch": "^3.2.3",
     "util": "^0.12.4",
     "winston": "^3.6.0"
   }
