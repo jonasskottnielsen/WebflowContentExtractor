@@ -1,0 +1,27 @@
+{
+  "name": "webflowcontentextractor",
+  "version": "1.0.0",
+  "description": "Small tool for extracting content from webflow",
+  "main": "index.js",
+  "type": "module",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jonasskottnielsen/WebflowContentExtractor.git"
+  },
+  "author": "Jonas Nielsen",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jonasskottnielsen/WebflowContentExtractor/issues"
+  },
+  "homepage": "https://github.com/jonasskottnielsen/WebflowContentExtractor#readme",
+  "dependencies": {
+    "axios": "^0.26.1",
+    "dotenv": "^16.0.0",
+    "mysql": "^2.18.1",
+    "util": "^0.12.4",
+    "winston": "^3.6.0"
+  }
+}
