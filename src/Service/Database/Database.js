@@ -3,6 +3,7 @@ import util from 'util';
 
 import Logger from '../Helpers/LoggerTypes.js';
 import { DB_HOST, DB_USERNAME, DB_NAME, DB_PASSWORD } from '../../Config/index.js';
+import LoggerTypes from '../Helpers/LoggerTypes.js';
 
 const pool = mysql.createPool({
 	connectionLimit: 10,
@@ -36,7 +37,7 @@ const Database = {
 	async insertPost(post){
 		let result = null;
 		try {
-			result = await runQuery(`INSERT INTO posts(
+			result = await runQuery(`INSERT INTO wp1_posts(
 														post_author, 
 														post_date, 
 														post_date_gmt, 
@@ -70,10 +71,64 @@ const Database = {
 		} catch (error) {
 			Logger.logSqlError({ queryName: 'insertPost', error: error });
 		}
+		console.log(result);
+		return result;
+	},
+	
+	async insertThumbnail(){
+		let result = null;
+		try {
+			result = await runQuery(`INSERT INTO wp1_posts(
+														post_author, 
+														post_date, 
+														post_date_gmt, 
+														post_content, 
+														post_title, 
+														post_excerpt, 
+														post_status, 
+														comment_status, 
+														ping_status, 
+														post_name, 
+														post_parent,
+														guid, 
+														post_type, 
+														comment_count
+													) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`, 
+													[
+														post.author,
+														post.date,
+														post.date_gmt,
+														post.content,
+														post.title, // navnet på billedet
+														post.excerpt, // blank
+														post.status, // inherit
+														post.comment_status, // open
+														post.ping_status, // closed
+														post.name, // navnet på billedet
+														post.parent, // tilhørende post id
+														post.guid, // path the billedet
+														post.type, // attachment
+														post.mime_type, // image/png
+														post.comment_count //0
+													]
+									);
+		} catch (error) {
+			Logger.logSqlError({ queryName: 'insertThumbnail', error: error });
+		}
+		console.log(result);
 		return result;
 	},
 
-	
+	async insertImage(){
+		let result = null;
+		try {
+			result = await runQuery('INSERT INTO wp1_postmeta(post_id, meta_key, meta_value) VALUES(?,?,?)', [data.postid, data.metakey, data.metavalue]);
+		} catch (error) {
+			Logger.logSqlError({queryName: 'insertImage', error: error})
+		}
+		return result;
+	},
+
 }
 
 export default Database

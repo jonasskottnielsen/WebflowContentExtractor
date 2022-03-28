@@ -6,6 +6,7 @@ const PostConverter = {
 	async webflowPostToWordpressPost(posts) {
 		let wordpressPosts = [];
 		const webflowPosts = posts.data.items;
+		//console.log(webflowPosts);
 		
 		for (let i = 0; i < 1/* webflowPosts.length */; i++) {
 			const element = webflowPosts[i];
@@ -28,25 +29,26 @@ const PostConverter = {
 				console.log('content contains no urls');
 			}
 			// replace all instances of url to webflow and change them to the new WP media url.
-			let content = element.content
 
 			wordpressPosts.push({
 				author: 1,
 				date: element['custom-date'],
 				date_gmt: element['custom-date'],
-				content: content.replace(WEBFLOW_MEDIA_URL, WORDPRESS_UPLOAD_URL),
+				content: element.content.replace(WEBFLOW_MEDIA_URL, WORDPRESS_UPLOAD_URL),
 				title: element.name,
 				excerpt: element.summary || '',
 				status: 'publish',
 				comment_status: 'closed',
 				ping_status: 'open',
 				name: name.toLowerCase(),
-				guid: 'https://otown.dk/',
+				guid: 'http://localhost:8080/?p=15',
 				type: 'post',
 				comment_count: 0,
-				imagedata: imagedata
+				imagedata: imagedata,
+				featuredImage: element['main-image'].url.replace(WEBFLOW_MEDIA_URL, WORDPRESS_UPLOAD_URL)
 			});
 		}
+		console.log(wordpressPosts);
 		return wordpressPosts;
 	}
 }
