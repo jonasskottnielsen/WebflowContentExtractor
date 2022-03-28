@@ -20,6 +20,7 @@
   "homepage": "https://github.com/jonasskottnielsen/WebflowContentExtractor#readme",
   "dependencies": {
     "axios": "^0.26.1",
+    "basic-ftp": "^4.6.6",
     "dotenv": "^16.0.0",
     "extract-urls": "^1.3.2",
     "mysql": "^2.18.1",

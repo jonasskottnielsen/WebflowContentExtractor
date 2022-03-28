@@ -1,29 +1,18 @@
 import fs from 'fs';
 import fetch from 'node-fetch';
-import Webflow from "../Webflow/Webflow.js";
+import ftp from 'basic-ftp';
 
 const Images = {
-	async storeImagesFromWebflow(){
-		const res = await Webflow.getPostsFromWebflow();
-		//console.log(res.data.items);
-		const items = res.data.items;
-		let imageUrlsArray = [];
-		console.log(items.length);
-		for (let i = 0; i < items.length; i++) {	
-			const element = items[i];
-			//console.log(element.slug);	
-		}
-	},
-
-	async fetchImages(imageUrls){
-	},
-
-	async download(url, filename) {
+	async downloadImage(url, filename) {
 		const response = await fetch(url);
 		const buffer = await response.buffer();
 		fs.writeFile(`./src/assets/images/${filename}.jpg`, buffer, () => 
 		  console.log('finished downloading!'));
 		  return 'done';
+	  },
+
+	  async uploadImage(filename){
+		
 	  }
 }
 

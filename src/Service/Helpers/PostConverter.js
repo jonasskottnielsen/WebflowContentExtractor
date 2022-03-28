@@ -1,27 +1,42 @@
 import Helpers from "./Helpers.js";
-import { WORDPRESS_UPLOAD_URL } from '../../Config/index.js';
+import { WEBFLOW_MEDIA_URL, WORDPRESS_UPLOAD_URL } from '../../Config/index.js';
+import Images from "../Images/Images.js";
 
 const PostConverter = {
 	async webflowPostToWordpressPost(posts) {
 		let wordpressPosts = [];
 		const webflowPosts = posts.data.items;
-		for (let i = 0; i < webflowPosts.length; i++) {
+		
+		for (let i = 0; i < 1/* webflowPosts.length */; i++) {
 			const element = webflowPosts[i];
 			let name = element.name;
-
-			// extract imageUrls and add them as meta data to work with later
 			let imagedata = [];
 			const urls = await Helpers.extractUrlsFromString(element.content);
-			console.log(urls);
-			//
+			
+			// download images from the main content of the webflow article.
+			if (urls) {
+				for (let p = 0; p < urls.length; p++) {
+					const urlString = urls[p];
+					
+					if (urlString.includes('https://uploads-ssl.webflow.com')) {
+						const filename = urlString.split("/");
+						const path = await Images.downloadImage(urlString, filename[4]);
+						imagedata.push({ imageUrl: urlString, path: filename[4] });
+					}
+				}
+			} else {
+				console.log('content contains no urls');
+			}
+			// replace all instances of url to webflow and change them to the new WP media url.
+			let content = element.content
 
 			wordpressPosts.push({
 				author: 1,
 				date: element['custom-date'],
 				date_gmt: element['custom-date'],
-				content: element.content,
+				content: content.replace(WEBFLOW_MEDIA_URL, WORDPRESS_UPLOAD_URL),
 				title: element.name,
-				excerpt: element.summary,
+				excerpt: element.summary || '',
 				status: 'publish',
 				comment_status: 'closed',
 				ping_status: 'open',

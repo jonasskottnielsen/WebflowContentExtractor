@@ -7,7 +7,7 @@ const DataFlow = {
 		//console.log(webflowPosts.data.items);
 
 		const posts = await PostConverter.webflowPostToWordpressPost(webflowPosts);
-		//console.log(posts);
+		console.log(posts);
 	}
 }
 
