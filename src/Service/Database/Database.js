@@ -2,8 +2,7 @@ import mysql from 'mysql';
 import util from 'util';
 
 import Logger from '../Helpers/LoggerTypes.js';
-import { DB_HOST, DB_USERNAME, DB_NAME, DB_PASSWORD } from '../../Config/index.js';
-import LoggerTypes from '../Helpers/LoggerTypes.js';
+import { DB_HOST, DB_USERNAME, DB_NAME, DB_PASSWORD, DB_PREFIX } from '../../Config/index.js';
 
 const pool = mysql.createPool({
 	connectionLimit: 10,
@@ -16,6 +15,16 @@ const pool = mysql.createPool({
 const runQuery = util.promisify(pool.query).bind(pool);
 
 const Database = {
+	async getNextId(){
+		let result = null;
+		try {
+			result = await runQuery(`SELECT MAX(ID) FROM ${DB_PREFIX}posts`);
+		} catch (error) {
+			Logger.logSqlError({place: '/Service/Database/Database#getNextId', error: error});
+		}
+		
+		return result[0]['MAX(ID)'];
+	},
 	/**
 	 * 
 	 * @param {Object} post
@@ -75,7 +84,8 @@ const Database = {
 		return result;
 	},
 	
-	async insertThumbnail(){
+	async insertThumbnail(post){
+		console.log(post)
 		let result = null;
 		try {
 			result = await runQuery(`INSERT INTO wp1_posts(
@@ -84,7 +94,6 @@ const Database = {
 														post_date_gmt, 
 														post_content, 
 														post_title, 
-														post_excerpt, 
 														post_status, 
 														comment_status, 
 														ping_status, 
@@ -92,24 +101,22 @@ const Database = {
 														post_parent,
 														guid, 
 														post_type, 
-														comment_count
+														post_mime_type
 													) VALUES(?,?,?,?,?,?,?,?,?,?,?,?,?)`, 
 													[
 														post.author,
 														post.date,
 														post.date_gmt,
-														post.content,
+														post.content, 
 														post.title, // navnet på billedet
-														post.excerpt, // blank
 														post.status, // inherit
 														post.comment_status, // open
 														post.ping_status, // closed
-														post.name, // navnet på billedet
+														post.name, // slug
 														post.parent, // tilhørende post id
 														post.guid, // path the billedet
 														post.type, // attachment
 														post.mime_type, // image/png
-														post.comment_count //0
 													]
 									);
 		} catch (error) {
@@ -118,16 +125,32 @@ const Database = {
 		console.log(result);
 		return result;
 	},
-
-	async insertImage(){
+	/**
+	 * @param {Object} data 
+	 * @param {String} postid ID of the post that the meta entry is about
+	 * @param {String} metakey Wordpress metakey (_wp_attached_file, _wp_attachment_metadata, _thumbnail_id)
+	 * @param {String} metavalue The value of the meta entry _wp_attached_file contains file path, _wp_attachment_metadata contains metadata on picture, _thumbnail_id contains the ID og the post it is connected to
+	 * @returns 
+	 */
+	async insertPostMeta(data){
 		let result = null;
 		try {
 			result = await runQuery('INSERT INTO wp1_postmeta(post_id, meta_key, meta_value) VALUES(?,?,?)', [data.postid, data.metakey, data.metavalue]);
 		} catch (error) {
-			Logger.logSqlError({queryName: 'insertImage', error: error})
+			Logger.logSqlError({queryName: 'insertPostMeta', error: error});
 		}
 		return result;
 	},
+
+	async getImage(imageName){
+		let result;
+		try {
+			result = await runQuery('SELECT * FROM wp1_posts WHERE post_name = ? AND post_type=?', [imageName , 'attachment']);
+		} catch (error) {
+			Logger.logSqlError({queryName: 'getImage', error: error});
+		}
+		return result;
+	}
 
 }
 

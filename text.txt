@@ -1,0 +1,19 @@
+<figure class="w-richtext-figure-type-image w-richtext-align-fullwidth" style="max-width: 2048px;" data-rt-type="image" data-rt-align="fullwidth" data-rt-max-width="2048px">
+<div><img src="localhost:8080/uploads/2022/03/624321c6eb91ecde2d830528_241813289_5130029040356852_7961837431765587554_n.jpg" width="auto" height="auto" /></div>
+<figcaption>Vinh til venstre, der står bag Odense Gathering Jam</figcaption></figure>
+
+<img class="alignnone size-medium wp-image-133" src="http://localhost:8080/wp-content/uploads/2022/03/62431ebb03cf3f4dae6040ab_241734234_5130028927023530_2374676211216057893_n-300x191.jpg" alt="" width="300" height="191" />
+
+
+fuld figure
+
+<!-- wp:image {"id":133,"sizeSlug":"large","linkDestination":"none"} -->
+<figure class="wp-block-image size-large"><img src="http://localhost:8080/wp-content/uploads/2022/03/62431ebb03cf3f4dae6040ab_241734234_5130028927023530_2374676211216057893_n-1024x652.jpg" alt="" class="wp-image-133"/></figure>
+<!-- /wp:image -->
+
+
+<figure class="w-richtext-figure-type-image w-richtext-align-center" data-rt-type="image" data-rt-align="center"><div><img src="https://uploads-ssl.webflow.com/
+<!-- wp:image {"id":133,"sizeSlug":"large","linkDestination":"none"} --><figure class="wp-block-image size-large"><img src="http://localhost:8080/wp-content/uploads/
+
+ loading="lazy" width="auto" height="auto"></div></figure>
+alt=""/></figure><!-- /wp:image -->

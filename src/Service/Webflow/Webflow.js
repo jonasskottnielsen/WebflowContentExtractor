@@ -2,14 +2,20 @@ import axios from 'axios';
 
 const Webflow = {
     async getPostsFromWebflow() {
-        const url = "https://api.webflow.com/collections/6048b8893419d77bfba17761/items";
+		const controlArray = []
+        const baseurl = "https://api.webflow.com/collections/6048b8893419d77bfba17761/items?offset=";
         const header = await this.getRequestHeaders();
-        let res;
-        try {
-            res = await axios.get(url, header);	 
-        } catch (error) {
-            console.log(error);
-        }
+        let res = [];
+        for (let i = 0; i < 459; i+= 100) {
+			try {
+				const result = await axios.get(`${baseurl}${i}`, header);
+				//console.log(result);
+				res = [...res, ...result.data.items]	 
+			} catch (error) {
+				console.log(error);
+			}
+		}
+		console.log(res.length);
 		return res;
     },
 
